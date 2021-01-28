@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 97408121}
   - component: {fileID: 97408120}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,7 +295,7 @@ GameObject:
   - component: {fileID: 1083388753}
   - component: {fileID: 1083388755}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Game Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -374,8 +374,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  start: {r: 1, g: 0, b: 0, a: 1}
-  end: {r: 0, g: 0.1812067, b: 1, a: 1}
+  start:
+    r: 1
+    g: 0
+    b: 0
+    a: 1
+  end:
+    r: 0
+    g: 0.1812067
+    b: 1
+    a: 1
+  starttime: 0
+  lerpedColor:
+    r: 1
+    g: 0
+    b: 0
+    a: 1
 --- !u!1 &1219125133
 GameObject:
   m_ObjectHideFlags: 0
