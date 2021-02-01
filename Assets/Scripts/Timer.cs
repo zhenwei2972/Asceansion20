@@ -14,6 +14,7 @@ public class Timer : MonoBehaviour
     Text Counter;
     Image Clock;
     float count = 0;
+    int currentimg = 0;
     void Start()
     {
         StartTimer = true;
@@ -21,6 +22,7 @@ public class Timer : MonoBehaviour
         Clock = GameObject.Find("Clock").GetComponent<Image>();
         Counter.text = Mathf.Round(timer).ToString();
         count = timer;
+        currentimg = timerimg.Length;
     }
 
     // Update is called once per frame
@@ -29,10 +31,11 @@ public class Timer : MonoBehaviour
         if (StartTimer)
             if (timer > 0)
             {
+                Clock.sprite = timerimg[(int)(timerimg.Length - currentimg)];
                 timer -= Time.deltaTime;
                 if(count > Mathf.Round(timer))
                 {
-                    Clock.sprite = timerimg[(int)(timerimg.Length - count)];
+                    currentimg--;
                 }
                 count = Mathf.Round(timer);
                 Counter.text = count.ToString();
