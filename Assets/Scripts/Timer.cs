@@ -9,6 +9,7 @@ public class Timer : MonoBehaviour
     public float timer = 10;
     public bool StartTimer = false;
     public Sprite[] timerimg;
+    public GameObject GameView;
     // Start is called before the first frame update
 
     Text Counter;
@@ -45,6 +46,7 @@ public class Timer : MonoBehaviour
                 timer = 0;
                 StartTimer = false;
                 Clock.sprite = timerimg[0];
+                GameView.GetComponent<AnimationHandler>().timeup();
             }
     }
 }
