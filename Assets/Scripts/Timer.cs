@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Timer : MonoBehaviour
 {
 
-    public float timer = 10;
+    public float timer, fadeSpeed;
     public bool StartTimer = false;
-    public Sprite[] timerimg;
-    public GameObject GameView;
+    //public Sprite[] timerimg;
+    public GameObject GameView, Text;
     // Start is called before the first frame update
 
-    Text Counter;
-    Image Clock;
+    TextMeshProUGUI Counter;
+    //Image Clock;
     float count = 0;
-    int currentimg = 0;
+    //int currentimg = 0;
     void Start()
     {
-        StartTimer = true;
-        Counter = GameObject.Find("Counter").GetComponent<Text>();
-        Clock = GameObject.Find("Clock").GetComponent<Image>();
+        Counter = Text.GetComponent<TextMeshProUGUI>();
+        //Clock = GameObject.Find("Clock").GetComponent<Image>();
+        //Counter.SetText(Mathf.Round(timer).ToString());
         Counter.text = Mathf.Round(timer).ToString();
         count = timer;
-        currentimg = timerimg.Length;
+        //currentimg = timerimg.Length;
     }
 
     // Update is called once per frame
@@ -32,20 +33,20 @@ public class Timer : MonoBehaviour
         if (StartTimer)
             if (timer > 0)
             {
-                Clock.sprite = timerimg[(int)(timerimg.Length - currentimg)];
+                //Clock.sprite = timerimg[(int)(timerimg.Length - currentimg)];
                 timer -= Time.deltaTime;
-                if(count > Mathf.Round(timer))
+                /*if(count > Mathf.Round(timer))
                 {
-                    currentimg--;
-                }
+                   currentimg--;
+                }*/
                 count = Mathf.Round(timer);
-                Counter.text = count.ToString();
+                Counter.text = Mathf.Round(timer).ToString();
             }
-            else 
+            else
             {
                 timer = 0;
                 StartTimer = false;
-                Clock.sprite = timerimg[0];
+                //Clock.sprite = timerimg[0];
                 GameView.GetComponent<AnimationHandler>().timeup();
             }
     }
