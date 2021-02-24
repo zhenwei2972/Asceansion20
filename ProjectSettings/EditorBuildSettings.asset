@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: 90582eb3298597a4f9ef369ea6e2041b
+  - enabled: 1
+    path: Assets/Scenes/Colour_Recall.unity
+    guid: b9378068115443c479c036c74cbd3da5
+  - enabled: 1
+    path: Assets/Scenes/Quick_Finger.unity
+    guid: 26394bb2ddff6e946a23c05f303a262e
+  - enabled: 1
+    path: Assets/Scenes/Mental_Math.unity
+    guid: c11e668349ab8ff4ea374bb6b69eb918
   m_configObjects: {}
