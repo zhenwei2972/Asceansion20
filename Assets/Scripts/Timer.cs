@@ -6,25 +6,20 @@ using TMPro;
 
 public class Timer : MonoBehaviour
 {
+    //public variables
+    public float timer, fadespeed;
+    public bool StartTimer;
+    public GameObject Text;
 
-    public float timer, fadeSpeed;
-    public bool StartTimer = false;
-    //public Sprite[] timerimg;
-    public GameObject GameView, Text;
+    //private variables
+    private TextMeshProUGUI Counter;
+    private float count;
     // Start is called before the first frame update
-
-    TextMeshProUGUI Counter;
-    //Image Clock;
-    float count = 0;
-    //int currentimg = 0;
     void Start()
     {
         Counter = Text.GetComponent<TextMeshProUGUI>();
-        //Clock = GameObject.Find("Clock").GetComponent<Image>();
-        //Counter.SetText(Mathf.Round(timer).ToString());
         Counter.text = Mathf.Round(timer).ToString();
         count = timer;
-        //currentimg = timerimg.Length;
     }
 
     // Update is called once per frame
@@ -33,21 +28,23 @@ public class Timer : MonoBehaviour
         if (StartTimer)
             if (timer > 0)
             {
-                //Clock.sprite = timerimg[(int)(timerimg.Length - currentimg)];
                 timer -= Time.deltaTime;
-                /*if(count > Mathf.Round(timer))
-                {
-                   currentimg--;
-                }*/
                 count = Mathf.Round(timer);
-                Counter.text = Mathf.Round(timer).ToString();
+                Counter.text = count.ToString();
+                if (count > timer)
+                {
+                    Counter.color = Color.Lerp(Counter.color, Color.clear, fadespeed * Time.deltaTime);
+                }
+                else
+                    Counter.color = Color.Lerp(Counter.color, Color.black, fadespeed * Time.deltaTime);
+
             }
             else
             {
                 timer = 0;
                 StartTimer = false;
-                //Clock.sprite = timerimg[0];
-                GameView.GetComponent<AnimationHandler>().timeup();
+
             }
+
     }
 }
