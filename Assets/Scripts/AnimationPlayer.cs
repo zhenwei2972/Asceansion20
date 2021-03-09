@@ -7,7 +7,7 @@ public class AnimationPlayer : MonoBehaviour
     private GameObject Display;
     private void Start()
     {
-        Display = GameObject.Find("Display");
+        Display = GameObject.Find("UI");
     }
     public void playanimation() 
     {
