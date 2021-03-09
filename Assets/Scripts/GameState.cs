@@ -6,7 +6,7 @@ public class GameState : MonoBehaviour
 {
     private int gamestate = 0;
     private Timer timer;
-    private AnimationPlayer Animate;
+    private AnimationHandler Animate;
     // Start is called before the first frame update
     public float PrimerCountDown, GameCountDown;
     public GameObject PrimerText, CountDownText;
@@ -14,7 +14,7 @@ public class GameState : MonoBehaviour
     void Start()
     {
         timer = this.GetComponent<Timer>();
-        Animate = this.GetComponent<AnimationPlayer>();
+        Animate = this.GetComponent<AnimationHandler>();
     }
 
     // Update is called once per frame
@@ -53,7 +53,7 @@ public class GameState : MonoBehaviour
         }
         if(gamestate == 2 && timer.getCountFinish())
         {
-            Animate.playanimation();
+            Animate.timeup();
             // de colour image
             // play animation
             // select colour and colouring

@@ -7,11 +7,11 @@ public class AnimationPlayer : MonoBehaviour
     private GameObject Display;
     private void Start()
     {
-        Display = GameObject.Find("UI");
+        //this.Display = GameObject.Find("UI");
     }
     public void playanimation() 
     {
-        Display.GetComponent<AnimationHandler>().timeup();
+        this.Display.GetComponent<AnimationHandler>().timeup();
     }
 
 }
