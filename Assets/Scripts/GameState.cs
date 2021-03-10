@@ -7,6 +7,7 @@ public class GameState : MonoBehaviour
     private int gamestate = 0;
     private Timer timer;
     private AnimationHandler Animate;
+    private LevelImgInstantiate spawner;
     // Start is called before the first frame update
     public float PrimerCountDown, GameCountDown;
     public GameObject PrimerText, CountDownText;
@@ -15,6 +16,7 @@ public class GameState : MonoBehaviour
     {
         timer = this.GetComponent<Timer>();
         Animate = this.GetComponent<AnimationHandler>();
+        spawner = this.GetComponent<LevelImgInstantiate>();
     }
 
     // Update is called once per frame
@@ -44,15 +46,19 @@ public class GameState : MonoBehaviour
             {
                 if (timer.getCountFinish())
                 {
+                   
                     CountDownText.transform.parent.gameObject.SetActive(true);
                     setupTimer(CountDownText, GameCountDown);
                     timer.starttimer();
+                    if (!spawner.isspawned())
+                        spawner.SpawnImage("Easy");
                     gamestate += 1;
                 }
             }
         }
         if(gamestate == 2 && timer.getCountFinish())
         {
+            CountDownText.SetActive(false);
             Animate.timeup();
             // de colour image
             // play animation
