@@ -4,28 +4,40 @@ using UnityEngine;
 
 public class LevelImgInstantiate : MonoBehaviour
 {
+    public GameObject imgparentpos; 
     public List<GameObject> Easy;
+    private int index;
     private bool spawn;
     public void SpawnImage(string level)
     {
         switch (level)
         {
             case "Easy":
-                int index = Random.Range(0, Easy.Count - 1);
-                GameObject Image = Instantiate(Easy[index], new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-                Image.transform.SetParent(GameObject.Find("Img").transform);
-                Image.transform.localScale = new Vector3(1, 1, 1);
-                Image.transform.localPosition = new Vector3(0, 0, 0);
+                spawner(Easy);
                 break;
             case "Medium":
+                //spawner(Medium);
                 break;
             case "Hard:":
+                //spawner(Hard);
                 break;
             default:
                 Debug.Log("no difficulty selected");
                 break;
         }
         setspawned();
+    }
+    private void spawner(List<GameObject> imgs)
+    {
+        index = Random.Range(0, imgs.Count - 1);
+        Instantiateimg(imgs[index],imgparentpos);
+    }
+    public void Instantiateimg(GameObject img,GameObject pos)
+    {
+        GameObject Image = Instantiate(img, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+        Image.transform.SetParent(pos.transform);
+        Image.transform.localScale = new Vector3(1, 1, 1);
+        Image.transform.localPosition = new Vector3(0, 0, 0);
     }
     public void setspawned()
     {
