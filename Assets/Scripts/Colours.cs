@@ -29,9 +29,13 @@ public class Colours : MonoBehaviour
         colorselected = btn.image.color;
         //Debug.Log(colorselected);
     }
+    public void clearselectedcolour()
+    {
+        colorselected = Color.clear;
+    }
     public void setsectioncolor(Image img)
     {
-        img.color = colorselected;
+            img.color = colorselected;
     }
     public void setrandomcolor(Image img)
     {

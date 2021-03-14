@@ -17,7 +17,7 @@ public class GameState : MonoBehaviour
     private int gamestate = 0;
     //public var
     public float PrimerCountDown, GameCountDown;
-    public GameObject PrimerText, CountDownText, ImgSpawner,ansImgSpawner,ScoreDisplay;
+    public GameObject PrimerText, CountDownText, ImgSpawner,ansImgSpawner,ScoreDisplay,GameplayInteractables,MenuInteractables;
 
 
     void Start()
@@ -107,7 +107,11 @@ public class GameState : MonoBehaviour
         segments = ansImgSpawner.GetComponentInChildren<ColourSegment>().getsegments();
         clr.colorwithgivenset(segments, scoring.getans());
 
-        
+        //hide buttons.
+        GameplayInteractables.SetActive(false);
+        //unhide home and replay button
+        MenuInteractables.SetActive(true);
+        clr.clearselectedcolour();
         //play animation
         gamestate++;
     }
