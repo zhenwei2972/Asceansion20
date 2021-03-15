@@ -59,6 +59,7 @@ public class GameState : MonoBehaviour
                         if (!spawner.isspawned())
                         {
                             //below is hardcoded for now ... change "Easy" to leveloptions.level to get from mainmenu
+                            //spawner.SpawnImag(leveloptions.level);
                             spawner.SpawnImage("Easy");
                             getcurrentsegments();
                             clr.setrandom(segments);
@@ -113,6 +114,7 @@ public class GameState : MonoBehaviour
         MenuInteractables.SetActive(true);
         clr.clearselectedcolour();
         //play animation
+        Animate.timeup();
         gamestate++;
     }
     public void clearcolour()
