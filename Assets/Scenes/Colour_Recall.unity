@@ -1714,8 +1714,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3a3460493c72034f86c71218f6a64e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PrimerCountDown: 1
-  GameCountDown: 2
+  PrimerCountDown: 3
+  GameCountDown: 10
   PrimerText: {fileID: 1241713330}
   CountDownText: {fileID: 831235520}
   ImgSpawner: {fileID: 1185868228}
@@ -3543,7 +3543,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2100371946
 RectTransform:
   m_ObjectHideFlags: 0

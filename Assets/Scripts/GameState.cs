@@ -19,7 +19,6 @@ public class GameState : MonoBehaviour
     public float PrimerCountDown, GameCountDown;
     public GameObject PrimerText, CountDownText, ImgSpawner,ansImgSpawner,ScoreDisplay,GameplayInteractables,MenuInteractables;
 
-
     void Start()
     {
         timer = this.GetComponent<Timer>();
@@ -73,6 +72,7 @@ public class GameState : MonoBehaviour
                 if (timer.getCountFinish())
                 {
                     //getcurrentsegments();
+                    GameplayInteractables.SetActive(true);
                     CountDownText.SetActive(false);
                     Animate.timeup();
                     clearcolour();
