@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 public class GameState : MonoBehaviour
 {
@@ -63,6 +64,7 @@ public class GameState : MonoBehaviour
                             getcurrentsegments();
                             clr.setrandom(segments);
                             scoring.setans(segments);
+                            EnableDisableButton(false);
                         }
                         gamestate += 1;
                     }
@@ -73,6 +75,7 @@ public class GameState : MonoBehaviour
                 {
                     //getcurrentsegments();
                     GameplayInteractables.SetActive(true);
+                    EnableDisableButton(true);
                     CountDownText.SetActive(false);
                     Animate.timeup();
                     clearcolour();
@@ -103,13 +106,17 @@ public class GameState : MonoBehaviour
         ScoreDisplay.GetComponent<TextMeshProUGUI>().text = (scoring.getscore(segments) + "%");
         ansImgSpawner.transform.parent.gameObject.SetActive(true);
         spawner.Instantiateimg(ImgSpawner.transform.GetChild(0).gameObject, ansImgSpawner);
+        //disable player's ans;
+        EnableDisableButton(false);
         //colour back original
         segments = new List<GameObject>();
         segments = ansImgSpawner.GetComponentInChildren<ColourSegment>().getsegments();
         clr.colorwithgivenset(segments, scoring.getans());
-
+        
         //hide buttons.
         GameplayInteractables.SetActive(false);
+        //disable ans img buttons
+        EnableDisableButton(false);
         //unhide home and replay button
         MenuInteractables.SetActive(true);
         clr.clearselectedcolour();
@@ -120,5 +127,13 @@ public class GameState : MonoBehaviour
     public void clearcolour()
     {
         clr.setwhitewitharray(segments);
+    }
+    
+    private void EnableDisableButton(bool i)
+    {
+        foreach(GameObject seg in segments)
+        {
+            seg.GetComponent<Button>().enabled = i;
+        }
     }
 }
