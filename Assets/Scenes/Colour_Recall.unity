@@ -1567,7 +1567,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 257
+  m_textAlignment: 258
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -1715,7 +1715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrimerCountDown: 3
-  GameCountDown: 10
+  GameCountDown: 0
   PrimerText: {fileID: 1241713330}
   CountDownText: {fileID: 831235520}
   ImgSpawner: {fileID: 1185868228}

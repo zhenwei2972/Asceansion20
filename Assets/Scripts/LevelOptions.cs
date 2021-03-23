@@ -5,7 +5,6 @@ public static class LevelOptions
 {
     private static string gametype, level;
     private static int noplayers;
-
     public static string GameType
     {
         get

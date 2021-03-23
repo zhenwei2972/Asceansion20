@@ -54,6 +54,7 @@ public class GameState : MonoBehaviour
                     if (timer.getCountFinish())
                     {
                         CountDownText.transform.parent.gameObject.SetActive(true);
+                        setdifficulty();
                         setupTimer(CountDownText, GameCountDown);
                         timer.starttimer();
                         if (!spawner.isspawned())
@@ -134,6 +135,29 @@ public class GameState : MonoBehaviour
         foreach(GameObject seg in segments)
         {
             seg.GetComponent<Button>().enabled = i;
+        }
+    }
+
+    private void setdifficulty()
+    {
+        Debug.Log(LevelOptions.Level);
+        switch (LevelOptions.Level)
+        {
+            case "Easy":
+                GameCountDown = 10;
+                Debug.Log("ran1");
+                break;
+            case "Medium":
+                GameCountDown = 8;
+                Debug.Log("ran2");
+                break;
+            case "Hard":
+                GameCountDown = 5;
+                Debug.Log("ran3");
+                break;
+            default:
+                Debug.Log("not set");
+                break;
         }
     }
 }

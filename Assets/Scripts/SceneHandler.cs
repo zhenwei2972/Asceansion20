@@ -7,10 +7,14 @@ using TMPro;
 
 public class SceneHandler : MonoBehaviour
 {
-    public GameObject btns_menu, btns_level, btns_noplayers;
+    public GameObject btns_menu, btns_level, btns_noplayers,btn_back,FirstSetup_Menu;
     public TextMeshProUGUI Title;
     void Update()
     {
+        if (PlayerPrefs.GetInt(tag) != 0)
+        {
+            LevelOptions.GameType = "setup";
+        }
         //Debug.Log(LevelOptions.GameType);
         switch (LevelOptions.GameType)
         {
@@ -20,6 +24,7 @@ public class SceneHandler : MonoBehaviour
                     hidebuttons(btns_menu);
                     unhidebuttons(btns_level);
                     Title.text = "Difficulty";
+                    unhidebuttons(btn_back);
                 }
                 break;
             case "Quick_Finger":
@@ -28,17 +33,24 @@ public class SceneHandler : MonoBehaviour
                     hidebuttons(btns_menu);
                     unhidebuttons(btns_noplayers);
                     Title.text = "Number of Players";
+                    unhidebuttons(btn_back);
                 }
                 break;
             case "Mental_Math":
                 LoadScene();
                 break;
+            case "setup":
+                FirstSetup_Menu.SetActive(true);
+                break;
             default:
                 if (isactive(btns_level) || isactive(btns_noplayers))
                 {
+                    Title.text = "Memoria";
+                    hidebuttons(btn_back);
                     hidebuttons(btns_level);
                     hidebuttons(btns_noplayers);
                     unhidebuttons(btns_menu);
+                    FirstSetup_Menu.SetActive(false);
                 }      
                 break;
         }
