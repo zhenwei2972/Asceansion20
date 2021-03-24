@@ -9,13 +9,17 @@ public class SceneHandler : MonoBehaviour
 {
     public GameObject btns_menu, btns_level, btns_noplayers,btn_back,FirstSetup_Menu;
     public TextMeshProUGUI Title;
-    void Update()
+
+    private void Start()
     {
-        if (PlayerPrefs.GetInt(tag) != 0)
+        int firsttime = PlayerPrefs.GetInt("savedFirstTime");
+        if (firsttime == 0)
         {
             LevelOptions.GameType = "setup";
         }
-        //Debug.Log(LevelOptions.GameType);
+    }
+    void Update()
+    {
         switch (LevelOptions.GameType)
         {
             case "Colour_Recall":
@@ -40,17 +44,18 @@ public class SceneHandler : MonoBehaviour
                 LoadScene();
                 break;
             case "setup":
+                if(!isactive(FirstSetup_Menu))
                 FirstSetup_Menu.SetActive(true);
                 break;
             default:
-                if (isactive(btns_level) || isactive(btns_noplayers))
+                if (isactive(btns_level) || isactive(btns_noplayers) || isactive(FirstSetup_Menu))
                 {
                     Title.text = "Memoria";
                     hidebuttons(btn_back);
                     hidebuttons(btns_level);
                     hidebuttons(btns_noplayers);
                     unhidebuttons(btns_menu);
-                    FirstSetup_Menu.SetActive(false);
+                    hidebuttons(FirstSetup_Menu);
                 }      
                 break;
         }
