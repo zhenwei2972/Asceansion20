@@ -25,7 +25,7 @@ public class GameManagerScript : MonoBehaviour
             GameObject child = Player1Buttons.transform.GetChild(i).gameObject;
             child.GetComponent<Image>().color = colors[randomNumber];
             */
-            Debug.Log(Player1Buttons.transform.GetChild(i).gameObject);
+        //    Debug.Log(Player1Buttons.transform.GetChild(i).gameObject);
 
         }
         

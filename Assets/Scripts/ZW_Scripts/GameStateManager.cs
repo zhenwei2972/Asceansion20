@@ -21,6 +21,8 @@ public class GameStateManager : MonoBehaviour
     public int increment = 20;
     public int decrement = 5;
     public float speed = 1.0f;
+    public Text winnerUI;
+    WinningObj gameState = new WinningObj();
     void Start()
     {
         setupColor();
@@ -114,10 +116,31 @@ public class GameStateManager : MonoBehaviour
         setScoreUI();
 
     }
+    void calculateWinner()
+    {
+        
+        if(player1Score > player2Score)
+        {
+            gameState.winnerName = "Player 1";
+            gameState.winnerScore = player1Score;
+        }
+        else
+        {
+            gameState.winnerName = "Player 2";
+            gameState.winnerScore = player2Score;
+        }
+
+        setWinnerUI("Winner is " + gameState.winnerName);
+    }
+    public void setWinnerUI(string text)
+    {
+        winnerUI.text = text;
+    }
     public void setScoreUI()
     {
         player1ScoreUI.text = player1Score.ToString();
         player2ScoreUI.text = player2Score.ToString();
+        
 
     }
     public void calculateScoring(int player,GameObject button)
@@ -199,6 +222,7 @@ public class GameStateManager : MonoBehaviour
     }
     public void resetGame()
     {
+        setWinnerUI("");
         StartCoroutine(StartCountdown());
     }
 
@@ -213,6 +237,10 @@ public class GameStateManager : MonoBehaviour
             setColorBtn();
             yield return new WaitForSeconds(speed);
             currCountdownValue--;
+            if(currCountdownValue == 1)
+            {
+                calculateWinner();
+            }
         }
     }
 }
