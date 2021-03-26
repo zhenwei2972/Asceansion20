@@ -23,8 +23,8 @@ public class InertactionHandler : MonoBehaviour
 
         LevelOptions.GameType = "mainmenu";
         PlayerPrefs.SetInt("savedFirstTime", 1);
-        PlayerPrefs.SetString("Age", age);
-        PlayerPrefs.SetString("Gender", gender);
+        PlayerPrefs.SetString("age", age);
+        PlayerPrefs.SetString("gender", gender);
     }
 
     public void removelocaldata()
