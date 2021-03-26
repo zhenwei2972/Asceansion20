@@ -110,9 +110,6 @@ public class GameStateManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-       
-        
         setScoreUI();
 
     }
@@ -222,6 +219,8 @@ public class GameStateManager : MonoBehaviour
     }
     public void resetGame()
     {
+        player1Score = 0;
+        player2Score = 0;
         setWinnerUI("");
         StartCoroutine(StartCountdown());
     }
