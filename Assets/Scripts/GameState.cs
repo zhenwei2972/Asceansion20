@@ -17,6 +17,7 @@ public class GameState : MonoBehaviour
     private ScreenShotHandler schandler;
     private DataHandler dataHandler;
 
+    private bool post;
     //public var
     public int gamestate = 0;
     public float PrimerCountDown, GameCountDown;
@@ -24,6 +25,7 @@ public class GameState : MonoBehaviour
 
     void Start()
     {
+        post = false;
         dataHandler = this.GetComponent<DataHandler>();
         schandler = this.GetComponent<ScreenShotHandler>();
         timer = this.GetComponent<Timer>();
@@ -57,13 +59,12 @@ public class GameState : MonoBehaviour
                     if (timer.getCountFinish())
                     {
                         CountDownText.transform.parent.gameObject.SetActive(true);
-                        colouringGame.setdifficulty();
-                        colouringGame.setupTimer(CountDownText, GameCountDown);
+                        colouringGame.setupTimer(CountDownText, colouringGame.setdifficulty());
                         if (!spawner.isspawned())
                         {
                             //below is hardcoded for now ... change "Easy" to leveloptions.level to get from mainmenu
-                            //spawner.SpawnImag(leveloptions.level);
-                            spawner.SpawnImage("Easy");
+                            spawner.SpawnImage(LevelOptions.Level);
+                            //spawner.SpawnImage("Easy");
                             colouringGame.getcurrentsegments(ImgSpawner);
                             clr.setrandom(colouringGame.segments);
                             scoring.setans(colouringGame.segments);
@@ -96,13 +97,17 @@ public class GameState : MonoBehaviour
                 if (Animate.hasplayed())
                 {
                     schandler.screenshot();
-                    ReColourInfo rcinfo = colouringGame.gamestats();
-                    rcinfo.picture = schandler.imgbytes;
-                    dataHandler.ColourRecall(rcinfo);
+                    timer.setTimer(1);
+                    timer.starttimer();
                     gamestate += 1;
                 }
                 break;
             case 4:
+                if (timer.getCountFinish() && !post)
+                {
+                    dataHandler.PostColourRecallStats(colouringGame.getscore().ToString(), schandler.imgbytes);
+                    post= true;
+                }
                 MenuInteractables.SetActive(true);
                 break;
             default:

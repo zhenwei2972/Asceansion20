@@ -12,14 +12,10 @@ public class ColouringGame : MonoBehaviour
     private ColourScore scoring;
     public List<GameObject> segments;
     private GameState gs;
+    private float score;
     ReColourInfo RCinfo;
     private void Start()
     {
-        RCinfo = new ReColourInfo();
-        RCinfo.age = PlayerPrefs.GetString("age");
-        RCinfo.userid = PlayerPrefs.GetString("uid");
-        RCinfo.mode = LevelOptions.Level;
-
         timer = this.GetComponent<Timer>();
         spawner = this.GetComponent<LevelImgInstantiate>();
         clr = this.GetComponent<Colours>();
@@ -44,8 +40,7 @@ public class ColouringGame : MonoBehaviour
     public void confirmans()
     {
         gs.gamestate = 3;
-        float score = scoring.getscore(segments);
-        RCinfo.score = score.ToString();
+        score = scoring.getscore(segments);
         gs.ScoreDisplay.GetComponent<TextMeshProUGUI>().text = (score + "%");
         spawner.Instantiateimg(gs.ImgSpawner.transform.GetChild(0).gameObject, gs.ansImgSpawner);
         //disable player's ans;
@@ -59,16 +54,19 @@ public class ColouringGame : MonoBehaviour
 
     }
 
-    public int setdifficulty()
+    public float setdifficulty()
     {
         Debug.Log(LevelOptions.Level);
         switch (LevelOptions.Level)
         {
             case "Easy":
+                Debug.Log("Run1");
                 return 10;
             case "Medium":
+                Debug.Log("Run2");
                 return 8;
             case "Hard":
+                Debug.Log("Run3");
                 return 5;
             default:
                 return 3;
@@ -81,8 +79,8 @@ public class ColouringGame : MonoBehaviour
             seg.GetComponent<Button>().enabled = i;
         }
     }
-    public ReColourInfo gamestats()
+    public float getscore()
     {
-        return RCinfo;
+        return score;
     }
 }

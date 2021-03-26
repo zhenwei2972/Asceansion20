@@ -10,7 +10,8 @@ public class ScreenShotHandler : MonoBehaviour
         yield return new WaitForEndOfFrame();
         var texture = ScreenCapture.CaptureScreenshotAsTexture();
         // do something with texture
-        byte[] bytes = texture.EncodeToPNG();
+
+        byte[] bytes = texture.EncodeToJPG();
         imgbytes = System.Convert.ToBase64String(bytes);
         // cleanup
         Object.Destroy(texture);

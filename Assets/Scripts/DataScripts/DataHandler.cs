@@ -5,12 +5,13 @@ using UnityEngine;
 public class DataHandler : MonoBehaviour
 {
     private string _adduser = "https://aseapi.hyunatic.com/public/index.php/api/add/playerinfo";
-    private string _recolour = "https://aseapi.hyunatic.com/public/index.php/api/api/colorgame/add";
+    private string _recolour = "https://aseapi.hyunatic.com/public/index.php/api/colorgame/add";
     private string _numbergame = "https://aseapi.hyunatic.com/public/index.php/api/numbergame/add";
     private string _simonsays = "https://aseapi.hyunatic.com/public/index.php/api/simonsays/add";
 
     private APIHandler API;
     private string state;
+    private string data;
     private void Start()
     {
         API = this.GetComponent<APIHandler>();
@@ -22,8 +23,10 @@ public class DataHandler : MonoBehaviour
             case "uid":
                 if (API.isfetchdone())
                 {
+                    data = API.GetData();
+                    data = data.Trim('[', ']');
                     UserID uid = new UserID();
-                    uid = JsonUtility.FromJson<UserID>(API.GetData());
+                    uid = JsonUtility.FromJson<UserID>(data);
                     PlayerPrefs.SetString("userid", uid.userid);
                 }
                 break;
@@ -40,9 +43,17 @@ public class DataHandler : MonoBehaviour
         API.postdata(_adduser, jsonstring);
         state = "uid";
     }
-    public void ColourRecall(ReColourInfo rc)
+    public void PostColourRecallStats(string score, string img)
     {
-        string jsonstring = JsonUtility.ToJson(rc);
+        ReColourInfo rcInfo = new ReColourInfo();
+        rcInfo.age = PlayerPrefs.GetString("age");
+        rcInfo.gender = PlayerPrefs.GetString("gender");
+        rcInfo.userid = PlayerPrefs.GetString("userid");
+        rcInfo.mode = LevelOptions.Level;
+        rcInfo.score = score;
+        rcInfo.picture = img;
+        Debug.Log(rcInfo.age + " | " + rcInfo.gender + "|" + rcInfo.userid + " | " + rcInfo.mode + " | " + rcInfo.score + " | " + rcInfo.picture + " | ");
+        string jsonstring = JsonUtility.ToJson(rcInfo);
         API.postdata(_recolour, jsonstring);
         state = "recolour";
     }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class LevelImgInstantiate : MonoBehaviour
 {
     public GameObject imgparentpos; 
-    public List<GameObject> Easy;
+    public List<GameObject> Easy,Medium,Hard;
     private int index;
     private bool spawn;
     public void SpawnImage(string level)
@@ -18,8 +18,8 @@ public class LevelImgInstantiate : MonoBehaviour
             case "Medium":
                 //spawner(Medium);
                 break;
-            case "Hard:":
-                //spawner(Hard);
+            case "Hard":
+                spawner(Hard);
                 break;
             default:
                 Debug.Log("no difficulty selected");

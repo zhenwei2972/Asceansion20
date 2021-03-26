@@ -10,16 +10,13 @@ public class InertactionHandler : MonoBehaviour
 
     private DataHandler dataHandler;
 
-    private void start()
-    {
-        dataHandler = this.GetComponent<DataHandler>();
-    }
     public void submituser()
     {
+        dataHandler = this.GetComponent<DataHandler>();
         string age = GameObject.Find("tmp_age").GetComponent<TMP_InputField>().text;
         TMP_Dropdown ddgender = GameObject.Find("dd_gender").GetComponent<TMP_Dropdown>();
         string gender = ddgender.options[ddgender.value].text;
-        //dataHandler.addUser(age,gender,1.ToString());
+        dataHandler.addUser(age,gender);
 
         LevelOptions.GameType = "mainmenu";
         PlayerPrefs.SetInt("savedFirstTime", 1);

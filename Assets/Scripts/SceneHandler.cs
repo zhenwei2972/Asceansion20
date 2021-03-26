@@ -15,6 +15,8 @@ public class SceneHandler : MonoBehaviour
         {
             LevelOptions.GameType = "setup";
         }
+        else
+            LevelOptions.GameType = "menu";
     }
     void Update()
     {
@@ -43,7 +45,7 @@ public class SceneHandler : MonoBehaviour
                 FirstSetup_Menu.SetActive(true);
                 break;
             default:
-                if (isactive(btns_level) || isactive(btns_noplayers) || isactive(FirstSetup_Menu))
+                if (isactive(btns_level) || isactive(btns_noplayers) || isactive(FirstSetup_Menu) || !isactive(btns_menu))
                 {
                     Title.text = "Memoria";
                     hidebuttons(btn_back);
