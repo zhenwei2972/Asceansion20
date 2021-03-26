@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DataHandler : MonoBehaviour
 {
-    private string _userlist = "";
-    private string _adduser = "/api/add/playerinfo";
+    private string _adduser = "https://aseapi.hyunatic.com/public/index.php/api/add/playerinfo";
+    private string _recolour = "https://aseapi.hyunatic.com/public/index.php/api/colorgame/add";
 
     private APIHandler API;
-
+    private string state;
     private void Start()
     {
         API = this.GetComponent<APIHandler>();
@@ -16,16 +16,16 @@ public class DataHandler : MonoBehaviour
 
     private void Update()
     {
-        if (API.isfetchdone())
-        {
-            UserID uid = new UserID();
-            uid = JsonUtility.FromJson<UserID>(API.GetData());
-            PlayerPrefs.SetString("Uid", uid.userid);
+        switch (state) {
+            case "uid":
+                if (API.isfetchdone())
+                {
+                    UserID uid = new UserID();
+                    uid = JsonUtility.FromJson<UserID>(API.GetData());
+                    PlayerPrefs.SetString("Uid", uid.userid);
+                }
+                break;
         }
-    }
-    public void getUserList()
-    {
-        API.fetchdata(_userlist);
     }
 
     public void addUser(string age,string gender)
@@ -36,5 +36,12 @@ public class DataHandler : MonoBehaviour
 
         string jsonstring = JsonUtility.ToJson(userinfo);
         API.postdata(_adduser, jsonstring);
+        state = "uid";
+    }
+    public void ColourRecall(ReColourInfo rc)
+    {
+        string jsonstring = JsonUtility.ToJson(rc);
+        API.postdata(_recolour, jsonstring);
+        state = "recolour";
     }
 }

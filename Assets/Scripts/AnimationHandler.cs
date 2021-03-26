@@ -17,4 +17,16 @@ public class AnimationHandler : MonoBehaviour
             }
         }
     }
+    public bool hasplayed()
+    {
+        if (GameView != null)
+        {
+            Animator animator = GameView.GetComponent<Animator>();
+            if (animator != null)
+            {
+                return animator.GetCurrentAnimatorStateInfo(0).IsName("Slide_down");
+            }
+        }
+        return false;
+    }
 }

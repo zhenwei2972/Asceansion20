@@ -13,20 +13,25 @@ public class GameState : MonoBehaviour
     private LevelImgInstantiate spawner;
     private Colours clr;
     private ColourScore scoring;
-    // private var
-    private List<GameObject> segments;
-    private int gamestate = 0;
+    private ColouringGame colouringGame;
+    private ScreenShotHandler schandler;
+    private DataHandler dataHandler;
+
     //public var
+    public int gamestate = 0;
     public float PrimerCountDown, GameCountDown;
     public GameObject PrimerText, CountDownText, ImgSpawner,ansImgSpawner,ScoreDisplay,GameplayInteractables,MenuInteractables;
 
     void Start()
     {
+        dataHandler = this.GetComponent<DataHandler>();
+        schandler = this.GetComponent<ScreenShotHandler>();
         timer = this.GetComponent<Timer>();
         Animate = this.GetComponent<AnimationHandler>();
         spawner = this.GetComponent<LevelImgInstantiate>();
         clr = this.GetComponent<Colours>();
         scoring = this.GetComponent<ColourScore>();
+        colouringGame = this.GetComponent<ColouringGame>();
     }
 
     // Update is called once per frame
@@ -37,12 +42,10 @@ public class GameState : MonoBehaviour
             case 0:
                 if (PrimerText != null && !PrimerText.Equals(null))
                 {
-
                     if (timer.getCountFinish())
                     {
-                        setupTimer(PrimerText, PrimerCountDown);
-                        timer.starttimer();
-                        gamestate++;
+                        colouringGame.setupTimer(PrimerText, PrimerCountDown);
+                        gamestate = 1;
                     }
                 }
                 break;
@@ -54,20 +57,19 @@ public class GameState : MonoBehaviour
                     if (timer.getCountFinish())
                     {
                         CountDownText.transform.parent.gameObject.SetActive(true);
-                        setdifficulty();
-                        setupTimer(CountDownText, GameCountDown);
-                        timer.starttimer();
+                        colouringGame.setdifficulty();
+                        colouringGame.setupTimer(CountDownText, GameCountDown);
                         if (!spawner.isspawned())
                         {
                             //below is hardcoded for now ... change "Easy" to leveloptions.level to get from mainmenu
                             //spawner.SpawnImag(leveloptions.level);
                             spawner.SpawnImage("Easy");
-                            getcurrentsegments();
-                            clr.setrandom(segments);
-                            scoring.setans(segments);
-                            EnableDisableButton(false);
+                            colouringGame.getcurrentsegments(ImgSpawner);
+                            clr.setrandom(colouringGame.segments);
+                            scoring.setans(colouringGame.segments);
+                            colouringGame.EnableDisableButton(false);
                         }
-                        gamestate += 1;
+                        gamestate = 2;
                     }
                 }
                 break;
@@ -76,87 +78,34 @@ public class GameState : MonoBehaviour
                 {
                     //getcurrentsegments();
                     GameplayInteractables.SetActive(true);
-                    EnableDisableButton(true);
+                    colouringGame.EnableDisableButton(true);
                     CountDownText.SetActive(false);
                     Animate.timeup();
-                    clearcolour();
-                    gamestate++;
+                    colouringGame.clearcolour();
+                    gamestate = 5;
                 }
                 break;
-            case 3://wait till submit button click
+            case 3:
+                ansImgSpawner.transform.parent.gameObject.SetActive(true);
+                //hide buttons.
+                GameplayInteractables.SetActive(false);
+                //play animation
+                Animate.timeup();
+                //unhide home and replay button
+                clr.clearselectedcolour();
+                if (Animate.hasplayed())
+                {
+                    schandler.screenshot();
+                    ReColourInfo rcinfo = colouringGame.gamestats();
+                    rcinfo.picture = schandler.imgbytes;
+                    dataHandler.ColourRecall(rcinfo);
+                    gamestate += 1;
+                }
                 break;
             case 4:
-                //display exit and play again button
-                break;
-
-        }
-    }
-    //below require to split into other scripts
-    private void setupTimer(GameObject text, float counter)
-    {
-        //Debug.Log(timer.getCountFinish());
-        timer.setText(text.GetComponent<TextMeshProUGUI>());
-        timer.setTimer(counter);
-    }
-    private void getcurrentsegments()
-    {
-        segments = ImgSpawner.GetComponentInChildren<ColourSegment>().getsegments();
-    }
-    public void confirmans()
-    {
-        ScoreDisplay.GetComponent<TextMeshProUGUI>().text = (scoring.getscore(segments) + "%");
-        ansImgSpawner.transform.parent.gameObject.SetActive(true);
-        spawner.Instantiateimg(ImgSpawner.transform.GetChild(0).gameObject, ansImgSpawner);
-        //disable player's ans;
-        EnableDisableButton(false);
-        //colour back original
-        segments = new List<GameObject>();
-        segments = ansImgSpawner.GetComponentInChildren<ColourSegment>().getsegments();
-        clr.colorwithgivenset(segments, scoring.getans());
-        
-        //hide buttons.
-        GameplayInteractables.SetActive(false);
-        //disable ans img buttons
-        EnableDisableButton(false);
-        //unhide home and replay button
-        MenuInteractables.SetActive(true);
-        clr.clearselectedcolour();
-        //play animation
-        Animate.timeup();
-        gamestate++;
-    }
-    public void clearcolour()
-    {
-        clr.setwhitewitharray(segments);
-    }
-    
-    private void EnableDisableButton(bool i)
-    {
-        foreach(GameObject seg in segments)
-        {
-            seg.GetComponent<Button>().enabled = i;
-        }
-    }
-
-    private void setdifficulty()
-    {
-        Debug.Log(LevelOptions.Level);
-        switch (LevelOptions.Level)
-        {
-            case "Easy":
-                GameCountDown = 10;
-                Debug.Log("ran1");
-                break;
-            case "Medium":
-                GameCountDown = 8;
-                Debug.Log("ran2");
-                break;
-            case "Hard":
-                GameCountDown = 5;
-                Debug.Log("ran3");
+                MenuInteractables.SetActive(true);
                 break;
             default:
-                Debug.Log("not set");
                 break;
         }
     }

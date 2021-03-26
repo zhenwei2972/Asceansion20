@@ -13,5 +13,4 @@ public class AnimationPlayer : MonoBehaviour
     {
         this.Display.GetComponent<AnimationHandler>().timeup();
     }
-
 }
