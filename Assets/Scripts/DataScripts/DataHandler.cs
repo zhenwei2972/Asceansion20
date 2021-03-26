@@ -5,7 +5,7 @@ using UnityEngine;
 public class DataHandler : MonoBehaviour
 {
     private string _userlist = "";
-    private string _adduser = "";
+    private string _adduser = "/api/add/playerinfo";
 
     private APIHandler API;
 
@@ -13,12 +13,22 @@ public class DataHandler : MonoBehaviour
     {
         API = this.GetComponent<APIHandler>();
     }
+
+    private void Update()
+    {
+        if (API.isfetchdone())
+        {
+            UserID uid = new UserID();
+            uid = JsonUtility.FromJson<UserID>(API.GetData());
+            PlayerPrefs.SetString("Uid", uid.userid);
+        }
+    }
     public void getUserList()
     {
         API.fetchdata(_userlist);
     }
 
-    public void addUser(string age,string gender,string id)
+    public void addUser(string age,string gender)
     {
         UserInfo userinfo = new UserInfo();
         userinfo.age = age;
@@ -27,5 +37,4 @@ public class DataHandler : MonoBehaviour
         string jsonstring = JsonUtility.ToJson(userinfo);
         API.postdata(_adduser, jsonstring);
     }
-
 }

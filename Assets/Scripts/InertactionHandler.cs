@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InertactionHandler : MonoBehaviour
 {
@@ -21,12 +23,31 @@ public class InertactionHandler : MonoBehaviour
 
         LevelOptions.GameType = "mainmenu";
         PlayerPrefs.SetInt("savedFirstTime", 1);
-        
-        Debug.Log(LevelOptions.GameType + PlayerPrefs.GetInt(tag));
+        PlayerPrefs.SetString("Age", age);
+        PlayerPrefs.SetString("Gender", gender);
     }
 
     public void removelocaldata()
     {
         PlayerPrefs.DeleteAll();
+    }
+
+    public void setGametype()
+    {
+        LevelOptions.GameType = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().name;
+    }
+    public void setDifficulty()
+    {
+        LevelOptions.Level = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TextMeshProUGUI>().text;
+        LoadScene();
+    }
+    public void setnumplayers()
+    {
+        LevelOptions.NoPlayers = int.Parse(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<Button>().name);
+        LoadScene();
+    }
+    public void LoadScene()
+    {
+        SceneManager.LoadScene(LevelOptions.GameType);
     }
 }

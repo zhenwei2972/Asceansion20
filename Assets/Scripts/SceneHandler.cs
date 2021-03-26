@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using TMPro;
 
 public class SceneHandler : MonoBehaviour
@@ -40,9 +38,6 @@ public class SceneHandler : MonoBehaviour
                     unhidebuttons(btn_back);
                 }
                 break;
-            case "Mental_Math":
-                LoadScene();
-                break;
             case "setup":
                 if(!isactive(FirstSetup_Menu))
                 FirstSetup_Menu.SetActive(true);
@@ -60,19 +55,7 @@ public class SceneHandler : MonoBehaviour
                 break;
         }
     }
-    public void LoadScene()
-    {
-        SceneManager.LoadScene(LevelOptions.GameType);
-    }
-    public void setGametype(Button btn)
-    {
-        LevelOptions.GameType = btn.name;
-    }
-    public void setDifficulty(Button btn)
-    {
-        LevelOptions.Level = btn.GetComponentInChildren<TextMeshProUGUI>().text;
-        LoadScene();
-    }
+
     private void unhidebuttons(GameObject btns)
     {
             btns.gameObject.SetActive(true);
@@ -80,11 +63,6 @@ public class SceneHandler : MonoBehaviour
     private void hidebuttons(GameObject btns)
     {
             btns.gameObject.SetActive(false);
-    }
-    public void setnumplayers(Button btn)
-    {
-        LevelOptions.NoPlayers = int.Parse(btn.name);
-        LoadScene();
     }
     private bool isactive(GameObject btn)
     {
