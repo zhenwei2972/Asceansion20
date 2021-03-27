@@ -18,13 +18,33 @@ public class GameStateManager : MonoBehaviour
     public Text player2ScoreUI;
     int player1Score;
     int player2Score;
-    public int increment = 20;
-    public int decrement = 5;
-    public float speed = 1.0f;
+    public int increment = 1;
+    public int decrement = 0;
+    public float speed = 2.0f;
     public Text winnerUI;
+    public int playerNumber;
+    public Text GameCompleted;
     WinningObj gameState = new WinningObj();
+    public GameObject P2UI;
+    public DataHandler datahandler;
+   // public bool toggleBtn = false;
+    void ToggleButtons(bool toggle)
+    {
+      //  toggleBtn = !toggleBtn;
+        for(int i =0; i <5; i++)
+        {
+            Debug.Log("toggle"+toggle);
+            buttons[i].GetComponent<Button>().interactable = toggle;
+            p2buttons[i].GetComponent<Button>().interactable = toggle;
+        }
+    }
     void Start()
     {
+        playerNumber = 2;//LevelOptions.NoPlayers;
+        if (playerNumber == 2)
+        {
+            P2UI.SetActive(true);
+        }
         setupColor();
         StartCoroutine(StartCountdown());
 
@@ -100,7 +120,10 @@ public class GameStateManager : MonoBehaviour
                 newColor = newColor + 1;
             }
             buttons[i].GetComponent<Image>().color = getRandomBtnColor(newColor);
-            p2buttons[i].GetComponent<Image>().color = getRandomBtnColor(newColor);
+            if (playerNumber == 2)
+            {
+                p2buttons[i].GetComponent<Image>().color = getRandomBtnColor(newColor);
+            }
         }
     }
     public int getCorrectColorBtn()
@@ -113,6 +136,12 @@ public class GameStateManager : MonoBehaviour
         setScoreUI();
 
     }
+    void postResult()
+    {
+        gameState.winnerName = "Player 1";
+            gameState.winnerScore = player1Score;
+        datahandler.QuickFingerStats(player1Score.ToString(),"1");
+    }
     void calculateWinner()
     {
         
@@ -121,11 +150,16 @@ public class GameStateManager : MonoBehaviour
             gameState.winnerName = "Player 1";
             gameState.winnerScore = player1Score;
         }
-        else
+        else if (player1Score == player2Score)
+        {
+            gameState.winnerName = "DRAW";
+        }
+        else 
         {
             gameState.winnerName = "Player 2";
             gameState.winnerScore = player2Score;
         }
+        
 
         setWinnerUI("Winner is " + gameState.winnerName);
     }
@@ -142,7 +176,8 @@ public class GameStateManager : MonoBehaviour
     }
     public void calculateScoring(int player,GameObject button)
     {
-        if(targetColor == button.GetComponent<Image>().color)
+        ToggleButtons(false);
+        if (targetColor == button.GetComponent<Image>().color)
         {
             if (player == 1)
             {
@@ -223,10 +258,12 @@ public class GameStateManager : MonoBehaviour
         player2Score = 0;
         setWinnerUI("");
         StartCoroutine(StartCountdown());
+        GameCompleted.text = "";
+        GameCompleted.gameObject.SetActive(false);
     }
 
     float currCountdownValue;
-    public IEnumerator StartCountdown(float countdownValue = 10)
+    public IEnumerator StartCountdown(float countdownValue = 11)
     {
         currCountdownValue = countdownValue;
         while (currCountdownValue > 0)
@@ -236,9 +273,21 @@ public class GameStateManager : MonoBehaviour
             setColorBtn();
             yield return new WaitForSeconds(speed);
             currCountdownValue--;
-            if(currCountdownValue == 1)
+            ToggleButtons(true);
+            if (currCountdownValue == 1)
             {
-                calculateWinner();
+                
+                // at the end of the round post the result
+                if(playerNumber ==1)
+                {
+                    GameCompleted.gameObject.SetActive(true);
+                    GameCompleted.text = "Game Complete!";
+                    postResult();
+                }
+                else if (playerNumber == 2)
+                {
+                    calculateWinner();
+                }
             }
         }
     }
