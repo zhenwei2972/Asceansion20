@@ -16,7 +16,7 @@ public class LevelImgInstantiate : MonoBehaviour
                 spawner(Easy);
                 break;
             case "Medium":
-                //spawner(Medium);
+                spawner(Medium);
                 break;
             case "Hard":
                 spawner(Hard);
