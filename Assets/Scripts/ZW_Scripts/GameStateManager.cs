@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
+using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour
 {
     public int random;
@@ -27,20 +27,23 @@ public class GameStateManager : MonoBehaviour
     WinningObj gameState = new WinningObj();
     public GameObject P2UI;
     public DataHandler datahandler;
-   // public bool toggleBtn = false;
+    public ReactionTimer reactionTimer;
+
+       // public bool toggleBtn = false;
     void ToggleButtons(bool toggle)
     {
       //  toggleBtn = !toggleBtn;
         for(int i =0; i <5; i++)
         {
-            Debug.Log("toggle"+toggle);
+           // Debug.Log("toggle"+toggle);
             buttons[i].GetComponent<Button>().interactable = toggle;
             p2buttons[i].GetComponent<Button>().interactable = toggle;
         }
     }
     void Start()
     {
-        playerNumber = 2;//LevelOptions.NoPlayers;
+        reactionTimer = GetComponent<ReactionTimer>();
+        playerNumber = LevelOptions.NoPlayers;
         if (playerNumber == 2)
         {
             P2UI.SetActive(true);
@@ -76,7 +79,7 @@ public class GameStateManager : MonoBehaviour
         }
 
         targetColor = hash[random];
-        Debug.Log("Target color is "+targetColor);
+      //  Debug.Log("Target color is "+targetColor);
         return random;
     }
     void setupColor()
@@ -86,8 +89,9 @@ public class GameStateManager : MonoBehaviour
         hash.Add(2, Color.green);
         hash.Add(3, Color.blue);
         hash.Add(4, Color.yellow);
-        hash.Add(5, Color.white);
-        hash.Add(6, Color.cyan);
+        hash.Add(5, Color.cyan);
+        Color greenish = new Color(128, 0, 128);
+        hash.Add(6, greenish);
 
     }
     Color getRandomColor()
@@ -140,7 +144,8 @@ public class GameStateManager : MonoBehaviour
     {
         gameState.winnerName = "Player 1";
             gameState.winnerScore = player1Score;
-        datahandler.QuickFingerStats(player1Score.ToString(),"1");
+        Debug.Log("average time is " + reactionTimer.averageTime());
+        datahandler.QuickFingerStats(player1Score.ToString(), reactionTimer.averageTime().ToString()) ;
     }
     void calculateWinner()
     {
@@ -177,17 +182,20 @@ public class GameStateManager : MonoBehaviour
     public void calculateScoring(int player,GameObject button)
     {
         ToggleButtons(false);
+       
         if (targetColor == button.GetComponent<Image>().color)
         {
             if (player == 1)
             {
-                player1Score+=increment;
-                Debug.Log("P1 Correct" + button.GetComponent<Image>().color + targetColor);
+                // only save time if player hits the correct button.
+                reactionTimer.stopTime();
+                player1Score +=increment;
+               // Debug.Log("P1 Correct" + button.GetComponent<Image>().color + targetColor);
             }
             else if( player ==2)
             {
                 player2Score+=increment;
-                Debug.Log("P2 Correct" + button.GetComponent<Image>().color+targetColor);
+              // Debug.Log("P2 Correct" + button.GetComponent<Image>().color+targetColor);
             }
         }
         else
@@ -195,12 +203,12 @@ public class GameStateManager : MonoBehaviour
             if (player == 1)
             {
                 player1Score -= decrement;
-                Debug.Log("P1 wrong " + button.GetComponent<Image>().color+targetColor);
+             //   Debug.Log("P1 wrong " + button.GetComponent<Image>().color+targetColor);
             }
             else if (player == 2)
             {
                 player2Score -= decrement;
-                Debug.Log("P2 wrong " + button.GetComponent<Image>().color+ targetColor);
+             //   Debug.Log("P2 wrong " + button.GetComponent<Image>().color+ targetColor);
             }
         }
     }
@@ -263,18 +271,19 @@ public class GameStateManager : MonoBehaviour
     }
 
     float currCountdownValue;
-    public IEnumerator StartCountdown(float countdownValue = 11)
+    public IEnumerator StartCountdown(float countdownValue = 1)
     {
         currCountdownValue = countdownValue;
-        while (currCountdownValue > 0)
+        while (currCountdownValue <= 11)
         {
             roundText.text =("Round No " + currCountdownValue);
             setColour();
             setColorBtn();
+            reactionTimer.startTimer();
             yield return new WaitForSeconds(speed);
-            currCountdownValue--;
+            currCountdownValue++;
             ToggleButtons(true);
-            if (currCountdownValue == 1)
+            if (currCountdownValue == 11)
             {
                 
                 // at the end of the round post the result
@@ -290,5 +299,9 @@ public class GameStateManager : MonoBehaviour
                 }
             }
         }
+    }
+    public void loadMenu()
+    {
+        SceneManager.LoadScene("mainmenu");
     }
 }

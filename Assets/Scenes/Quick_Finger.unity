@@ -1509,6 +1509,7 @@ GameObject:
   - component: {fileID: 830357584}
   - component: {fileID: 830357585}
   - component: {fileID: 830357586}
+  - component: {fileID: 830357587}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1571,6 +1572,7 @@ MonoBehaviour:
   GameCompleted: {fileID: 424773840}
   P2UI: {fileID: 1852100482}
   datahandler: {fileID: 950644422}
+  reactionTimer: {fileID: 0}
 --- !u!114 &830357586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1586,6 +1588,19 @@ MonoBehaviour:
   increment: 1
   decrement: 0
   mainColor: 0
+--- !u!114 &830357587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830357583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa21c6ecd84159458a24c569a8d810b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StopTime: 0
 --- !u!1 &831803592
 GameObject:
   m_ObjectHideFlags: 0
@@ -3409,7 +3424,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 830357585}
-        m_MethodName: resetGame
+        m_MethodName: loadMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
