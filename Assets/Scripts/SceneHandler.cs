@@ -22,6 +22,7 @@ public class SceneHandler : MonoBehaviour
     {
         switch (LevelOptions.GameType)
         {
+            case "Mental_Math":
             case "Colour_Recall":
                 if (isactive(btns_menu))
                 {
