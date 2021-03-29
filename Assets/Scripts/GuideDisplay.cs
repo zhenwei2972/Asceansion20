@@ -19,12 +19,28 @@ public class GuideDisplay : MonoBehaviour
                                  "\n\nClear button to clear all the painted colour on the image.";
                 break;
             case "QuickFinger":
-                GuideText.text = "Enter Guide for Quick Finger";
+                GuideText.text = "Select the button with the same color as the color shown on the centre of the screen." +
+                                 "\nMove your fingers quickly! and Match the colors correctly!";
                 break;
             case "MentalMath":
-                GuideText.text = "Enter Guide for Mental Math";
+                GuideText.text = "Step 1: \n\t Remember the numbers and aritmethic symbols" +
+                                 "\n\nStep 2: \n\tcalculate the equation" +
+                                 "\n\nstep 3: \n\tEnter the Answer and tap on subtmit answer";
                 break;
-
+            case "Credits":
+                
+                GuideText.text = "\t  Credits " +
+                            "Project Manger |\n Lee Zhen Wei \n\n" +
+                            "Release Manager |\n Jeremaih Chan \n\n" +
+                            "Lead Developer |\n Chien Yong Qiang \n\n" +
+                            "Frontend Developer |\n Delon Lim Long Ting \n\n"+
+                            "Backend Developer |\n Aide Iskandar \n\n"+
+                            " Quality Assurance Manager |\n Hong Ze Yi \n\n" +
+                            "\n" + 
+                            "Special thanks \n\n" +
+                            " Icons made by https://www.freepik.com Freepik \n\n Freepik from https://www.flaticon.com/  Flaticon \n\n"+
+                            " Game Engine \nUnity Engine";
+                break;
         }
     }
 }
