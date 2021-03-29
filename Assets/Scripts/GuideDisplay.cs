@@ -30,16 +30,16 @@ public class GuideDisplay : MonoBehaviour
             case "Credits":
                 
                 GuideText.text = "\t  Credits " +
-                            "Project Manger |\n Lee Zhen Wei \n\n" +
-                            "Release Manager |\n Jeremaih Chan \n\n" +
-                            "Lead Developer |\n Chien Yong Qiang \n\n" +
-                            "Frontend Developer |\n Delon Lim Long Ting \n\n"+
-                            "Backend Developer |\n Aide Iskandar \n\n"+
-                            " Quality Assurance Manager |\n Hong Ze Yi \n\n" +
+                            "Project Manger|\n Lee Zhen Wei\n\n" +
+                            "Release Manager|\n Delon Lim Long Ting\n\n" +
+                            "Lead Developer|\n Chien Yong Qiang\n\n" +
+                            "Frontend Developer|\n Jeremaih Chan\n\n" +
+                            "Backend Developer|\n Aide Iskandar \n\n"+
+                            " Quality Assurance Manager|\n Hong Ze Yi\n\n" +
                             "\n" + 
                             "Special thanks \n\n" +
                             " Icons made by https://www.freepik.com Freepik \n\n Freepik from https://www.flaticon.com/  Flaticon \n\n"+
-                            " Game Engine \nUnity Engine";
+                            "Game Engine \nUnity Engine";
                 break;
         }
     }
