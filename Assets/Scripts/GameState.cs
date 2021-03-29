@@ -21,7 +21,7 @@ public class GameState : MonoBehaviour
     //public var
     public int gamestate = 0;
     public float PrimerCountDown, GameCountDown;
-    public GameObject PrimerText, CountDownText, ImgSpawner,ansImgSpawner,ScoreDisplay,GameplayInteractables,MenuInteractables;
+    public GameObject PrimerText, CountDownText, ImgSpawner,ansImgSpawner,ScoreDisplay,GameplayInteractables,MenuInteractables,btn_exit;
 
     void Start()
     {
@@ -96,6 +96,7 @@ public class GameState : MonoBehaviour
                 clr.clearselectedcolour();
                 if (Animate.hasplayed())
                 {
+                    btn_exit.SetActive(false);
                     schandler.screenshot();
                     timer.setTimer(1);
                     timer.starttimer();
