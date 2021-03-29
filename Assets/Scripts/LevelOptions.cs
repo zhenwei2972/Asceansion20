@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public static class LevelOptions
 {
-    private static string gametype, level;
+    private static string gametype, level,gameguide;
     private static int noplayers;
     public static string GameType
     {
@@ -36,6 +36,17 @@ public static class LevelOptions
         set
         {
             noplayers = value;
+        }
+    }
+    public static string GameGuide
+    {
+        get
+        {
+            return gameguide;
+        }
+        set
+        {
+            gameguide = value;
         }
     }
 }

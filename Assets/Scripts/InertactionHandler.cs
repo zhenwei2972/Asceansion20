@@ -4,12 +4,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class InertactionHandler : MonoBehaviour
 {
 
     private DataHandler dataHandler;
-
+    private GuideDisplay guideDisplay;
+    public GameObject GifPlayer;
     public void submituser()
     {
         dataHandler = this.GetComponent<DataHandler>();
@@ -46,5 +48,16 @@ public class InertactionHandler : MonoBehaviour
     public void LoadScene()
     {
         SceneManager.LoadScene(LevelOptions.GameType);
+    }
+    public void CloseGuide()
+    {
+        GifPlayer.SetActive(false);
+    }
+    public void OpenGuide()
+    {
+        guideDisplay = this.GetComponent<GuideDisplay>();
+        LevelOptions.GameGuide = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TextMeshProUGUI>().name;
+        GifPlayer.SetActive(true);
+        guideDisplay.displayGuide();
     }
 }
