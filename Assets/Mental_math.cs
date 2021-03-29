@@ -11,20 +11,22 @@ public class Mental_math: MonoBehaviour
     public List<TMP_Text> textNo, sign, ansText, ansFinal, ansCfm;
     //public TMP_Text no1, no2, no3, no4, no5, no6, no7, no8, no9;
     //public TMP_Text sign1, sign2, sign3, sign4, sign5, sign6;
-    public List<GameObject> ans;
+    public List<GameObject> ans, cover;
     public GameObject Alert, replay, mainmenu;
-    public Button cfmbtn1, cfmbtn2, cfmbtn3, finalcfmbtn, replaybtn, mainmenubtn;
+    public Button cfmbtn1, cfmbtn2, cfmbtn3, finalcfmbtn, replaybtn, mainmenubtn, quitbtn;
+    public TMP_Text showAns;
     // Start is called before the first frame update
 
     private char[] arithSign = { '+', '-', 'x', '÷' };
     private bool Ans1Sel = false, Ans2Sel = false, Ans3Sel = false, isRow1 = true, isRow2 = false, isRow3= false;
     private int currAns;
-    private float sec = 2.0f;
+    private float sec = 2.0f, secCover = 3.0f;
     private int gcal1, gcal2, gcal3, gcal4, gcal5, gcal6, gcal7, gcal8, gcal9;
     private char garith1, garith2, garith3, garith4, garith5, garith6;
     private List<int> rowNo = new List<int>();
     private List<char> arith = new List<char>();
     private int qnsNo = 5, score = 0;
+    private List<string> Ans_str = new List<string>();
 
     void Start()
     {
@@ -32,6 +34,9 @@ public class Mental_math: MonoBehaviour
         Alert.SetActive(false);
         replay.SetActive(false);
         mainmenu.SetActive(false);
+        cover[0].SetActive(false);
+        cover[3].SetActive(false);
+        cover[4].SetActive(false);
 
         Button btn = cfmbtn1.GetComponent<Button>();
         btn.onClick.AddListener(SelectedAns1);
@@ -41,9 +46,39 @@ public class Mental_math: MonoBehaviour
         btn3.onClick.AddListener(SelectedAns3);
         Button Cfmbtn = finalcfmbtn.GetComponent<Button>();
         Cfmbtn.onClick.AddListener(confirmAns);
-       
+
+        Button quitbtn1 = quitbtn.GetComponent<Button>();
+        quitbtn1.onClick.AddListener(gotoMainMenu);
+
         ans[1].SetActive(false);
         ans[2].SetActive(false);
+    }
+    IEnumerator Cover1()
+    {
+        yield return new WaitForSeconds(secCover);
+        cover[0].SetActive(true);
+    }
+
+    IEnumerator Cover2()
+    {
+        yield return new WaitForSeconds(secCover);
+        cover[1].SetActive(true);
+    }
+    IEnumerator Cover3()
+    {
+        yield return new WaitForSeconds(secCover);
+        cover[2].SetActive(true);
+    }
+    IEnumerator StopShowAns()
+    {
+        yield return new WaitForSeconds(secCover);
+        cover[3].SetActive(false);
+        cover[4].SetActive(false);
+        cfmbtn1.interactable = true;
+        cfmbtn2.interactable = true;
+        cfmbtn3.interactable = true;
+        finalcfmbtn.interactable = true;
+        nextRowQns();
     }
     void SelectedAns1()
     {
@@ -122,6 +157,10 @@ public class Mental_math: MonoBehaviour
     }
     private void checkAns()
     {
+        cfmbtn1.interactable = false;
+        cfmbtn2.interactable = false;
+        cfmbtn3.interactable = false;
+        finalcfmbtn.interactable = false;
         if (Ans1Sel && int.Parse(ansCfm[0].text) == currAns)
         {
             score++;
@@ -136,10 +175,28 @@ public class Mental_math: MonoBehaviour
         }
         else
         {
-            //does not do anything when incorrect
+            Debug.Log("Incorrect");
+
         }
-        //unlock next row if curr row is last row next questions
-        nextRowQns();
+        cover[3].SetActive(true);
+        cover[4].SetActive(true);
+
+        if (isRow1)
+        {
+            showAns.text = rowNo[0].ToString() + " " + arith[0].ToString() + " " + rowNo[3].ToString() + " " + arith[3].ToString() + " " + rowNo[6].ToString() + " = " + currAns.ToString();
+        }
+        else if (isRow2)
+        {
+            showAns.text = rowNo[1].ToString() + " " + arith[1].ToString() + " " + rowNo[4].ToString() + " " + arith[4].ToString() + " " + rowNo[7].ToString() + " = " + currAns.ToString();
+        }
+        else if (isRow3)
+        {
+            showAns.text = rowNo[2].ToString() + " " + arith[2].ToString() + " " + rowNo[5].ToString() + " " + arith[5].ToString() + " " + rowNo[8].ToString() + " = " + currAns.ToString();
+        }
+
+        StartCoroutine(StopShowAns());
+        //next qns is throw to stopshowans
+        
         //return 0;
     }
 
@@ -185,7 +242,9 @@ public class Mental_math: MonoBehaviour
                 isRow1 = true;
                 isRow2 = false;
                 isRow3 = false;
+                cover[0].SetActive(false);
                 setupQns();
+                
             }
             
         }else if (isRow2)
@@ -193,14 +252,18 @@ public class Mental_math: MonoBehaviour
             //enabled row 3
             isRow3 = true;
             isRow2 = false;
+            cover[2].SetActive(false);
             thirdRowQns();
+            StartCoroutine(Cover3());
             ans[2].SetActive(true);
         }
         else
         {
             isRow1 = false;
             isRow2 = true;
+            cover[1].SetActive(false);
             secRowQns();
+            StartCoroutine(Cover2());
             ans[1].SetActive(true);
         }
     }
@@ -224,8 +287,6 @@ public class Mental_math: MonoBehaviour
     {
         rowNo.Clear();
         arith.Clear();
-
-        
 
         for (int i = 0; i < 9; i++)
         {
@@ -261,6 +322,7 @@ public class Mental_math: MonoBehaviour
         }
 
         firstRowQns();
+        StartCoroutine(Cover1());
     }
 
     private void firstRowQns()
@@ -269,8 +331,8 @@ public class Mental_math: MonoBehaviour
 
         ansCal = popAns(arith[0], arith[3], rowNo[0], rowNo[3], rowNo[6]);
         ansCal.Shuffle();
-
-        for(int i = 0; i < 3; i++)
+        //Ans_str[0] = rowNo[0].ToString() + " " + arith[0].ToString() + " " + rowNo[3].ToString() + " " + arith[3].ToString() + " " + rowNo[6].ToString() + " = " + currAns.ToString();
+        for (int i = 0; i < 3; i++)
         {
             ansText[i].text = ansCal[i];
         }
@@ -282,6 +344,8 @@ public class Mental_math: MonoBehaviour
         ansCal = popAns(arith[1], arith[4], rowNo[1], rowNo[4], rowNo[7]);
         ansCal.Shuffle();
 
+        //Ans_str[1] = showAns.text = rowNo[1].ToString() + " " + arith[1].ToString() + " " + rowNo[4].ToString() + " " + arith[4].ToString() + " " + rowNo[7].ToString() + " = " + currAns.ToString();
+
         for (int i = 0; i < 3; i++)
         {
             ansText[i].text = ansCal[i];
@@ -290,7 +354,7 @@ public class Mental_math: MonoBehaviour
     private void thirdRowQns()
     {
         var ansCal = new List<string>();
-
+       // Ans_str[2] = rowNo[2].ToString() + " " + arith[2].ToString() + " " + rowNo[5].ToString() + " " + arith[5].ToString() + " " + rowNo[8].ToString() + " = " + currAns.ToString();
         ansCal = popAns(arith[2], arith[5], rowNo[2], rowNo[5], rowNo[8]);
         ansCal.Shuffle();
 
