@@ -40,7 +40,7 @@ public class GameStateManager : MonoBehaviour
     void ToggleButtons(bool toggle)
     {
       //  toggleBtn = !toggleBtn;
-        for(int i =0; i <5; i++)
+        for(int i =0; i <6; i++)
         {
            // Debug.Log("toggle"+toggle);
             buttons[i].GetComponent<Button>().interactable = toggle;
@@ -269,6 +269,7 @@ public class GameStateManager : MonoBehaviour
     }
     public void resetGame()
     {
+        ToggleButtons(true);
         player1Score = 0;
         player2Score = 0;
         setWinnerUI("");
@@ -276,7 +277,33 @@ public class GameStateManager : MonoBehaviour
         GameCompleted.text = "";
         GameCompleted.gameObject.SetActive(false);
     }
-
+    public IEnumerator finalRoundDelay(float delay =0)
+    {
+        while (delay <2)
+        {
+            yield return new WaitForSeconds(1);
+            delay++;
+            Debug.Log(delay);
+            if (delay == 2)
+            {
+                
+                // at the end of the round post the result
+                if (playerNumber == 1)
+                {
+                    Debug.Log("Run");
+                    ToggleButtons(false);
+                    GameCompleted.gameObject.SetActive(true);
+                    GameCompleted.text = "Game Complete!";
+                    postResult();
+                }
+                else if (playerNumber == 2)
+                {
+                    ToggleButtons(false);
+                    calculateWinner();
+                }
+            }
+        }
+    }
     float currCountdownValue;
     public IEnumerator StartCountdown(float countdownValue = 1)
     {
@@ -290,21 +317,27 @@ public class GameStateManager : MonoBehaviour
             yield return new WaitForSeconds(speed);
             currCountdownValue++;
             ToggleButtons(true);
+            
             if (currCountdownValue == 11)
             {
-                
+                StartCoroutine(finalRoundDelay());
+                /*
                 // at the end of the round post the result
                 if(playerNumber ==1)
                 {
+                    ToggleButtons(false);
                     GameCompleted.gameObject.SetActive(true);
                     GameCompleted.text = "Game Complete!";
                     postResult();
                 }
                 else if (playerNumber == 2)
                 {
+                    ToggleButtons(false);
                     calculateWinner();
                 }
+                */
             }
+            
         }
     }
     public void loadMenu()
