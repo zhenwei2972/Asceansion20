@@ -41,7 +41,7 @@ public class Mental_math: MonoBehaviour
         btn3.onClick.AddListener(SelectedAns3);
         Button Cfmbtn = finalcfmbtn.GetComponent<Button>();
         Cfmbtn.onClick.AddListener(confirmAns);
-
+       
         ans[1].SetActive(false);
         ans[2].SetActive(false);
     }
@@ -164,11 +164,15 @@ public class Mental_math: MonoBehaviour
                 mainmenu.SetActive(true);
 
                 finalcfmbtn.interactable = false;
-                
+                cfmbtn1.interactable = false;
+                cfmbtn2.interactable = false;
+                cfmbtn3.interactable = false;
+
                 Button replybtn = replaybtn.GetComponent<Button>();
                 replybtn.onClick.AddListener(replaygame);
                 Button menubtn = mainmenubtn.GetComponent<Button>();
                 menubtn.onClick.AddListener(gotoMainMenu);
+                
             }
             else
             {
@@ -199,11 +203,6 @@ public class Mental_math: MonoBehaviour
             secRowQns();
             ans[1].SetActive(true);
         }
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     private int setDifficulty()

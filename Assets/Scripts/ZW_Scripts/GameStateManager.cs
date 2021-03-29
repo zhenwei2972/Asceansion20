@@ -28,14 +28,7 @@ public class GameStateManager : MonoBehaviour
     public GameObject P2UI;
     public DataHandler datahandler;
     public ReactionTimer reactionTimer;
-    public GameObject helpPanel;
-    bool helpToggle =false;
 
-    public void toggleHelp()
-    {
-        helpToggle = !helpToggle;
-        helpPanel.SetActive(helpToggle);
-    }
        // public bool toggleBtn = false;
     void ToggleButtons(bool toggle)
     {
