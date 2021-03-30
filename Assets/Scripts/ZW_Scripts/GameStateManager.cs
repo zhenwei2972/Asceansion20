@@ -43,7 +43,7 @@ public class GameStateManager : MonoBehaviour
     void Start()
     {
         reactionTimer = GetComponent<ReactionTimer>();
-        playerNumber = LevelOptions.NoPlayers;
+        playerNumber =  LevelOptions.NoPlayers;
         if (playerNumber == 2)
         {
             P2UI.SetActive(true);
@@ -164,8 +164,8 @@ public class GameStateManager : MonoBehaviour
             gameState.winnerName = "Player 2";
             gameState.winnerScore = player2Score;
         }
-        
 
+        winnerUI.gameObject.SetActive(true);
         setWinnerUI("Winner is " + gameState.winnerName);
     }
     public void setWinnerUI(string text)
@@ -269,6 +269,7 @@ public class GameStateManager : MonoBehaviour
         StartCoroutine(StartCountdown());
         GameCompleted.text = "";
         GameCompleted.gameObject.SetActive(false);
+        winnerUI.gameObject.SetActive(false);
     }
     public IEnumerator finalRoundDelay(float delay =0)
     {
